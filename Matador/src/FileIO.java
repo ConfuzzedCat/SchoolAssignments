@@ -1,24 +1,42 @@
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+
 public class FileIO {
+
+
     public ArrayList<String> readGameData() {
-        ArrayList<String> values = new ArrayList<>();
-        String header;
+        File file = new File("Data/gamedata.csv");
+        ArrayList<String> data = new ArrayList<>();
         try {
-            Scanner scan = new Scanner(new File("data/gamedata.csv"));
-            header = scan.nextLine();
-            while (scan.hasNextLine()){
-                String s = scan.nextLine();
-                values.add(s);
+            Scanner input = new Scanner(file);
+            input.nextLine();//ignorer header
+
+            while (input.hasNextLine()) {
+                data.add(input.nextLine());//“Egon: 30000”
             }
-        } catch (FileNotFoundException e){
+        } catch (FileNotFoundException e) {
+            data = null;
+        }
+        return data;
+    }
+
+    public void writeGameData(ArrayList<Player> players) {
+        try {
+            FileWriter writer = new FileWriter("Data/gamedata.csv");
+            writer.write( "name, amount\n");
+
+            for (Player p : players) {
+                writer.write(p.getName() + "," + p.getBalance()+"\n");
+            }
+            writer.close();
+        } catch (IOException e) {
             System.out.println(e);
         }
-        return values;
     }
 
     public String[] readBoardData(){
@@ -35,19 +53,5 @@ public class FileIO {
             System.out.println(e);
         }
         return values;
-    }
-
-    public void writeGameData(ArrayList<Player> data){
-        String out = "name,balance\n";
-        for (Player p: data) {
-            out += p.toString(true) + "\n";
-        }
-        out = out.trim();
-        try {
-            FileWriter writer = new FileWriter("data/gamedata.csv");
-            writer.write(out);
-        } catch (Exception e){
-            System.out.println(e);
-        }
     }
 }

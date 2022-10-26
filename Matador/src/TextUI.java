@@ -4,41 +4,43 @@ import java.util.Scanner;
 public class TextUI {
     static Scanner scan = new Scanner(System.in);
 
-    //receives a message and displays it to the user
-    //prompts the user for a response
+    public String getUserInput(String msg){
+        displayMessage(msg);
+        String input = scan.nextLine();
+        return input;
+    }
 
-    public ArrayList<String> getUserInput(String msg, String elementName, int amount){
-
+    public ArrayList<String> getUserInput(String msg, int iterations ){
         ArrayList<String> values = new ArrayList<>();
+
+
         int i = 0;
-        System.out.println(msg);
-        while(i < amount){
-            System.out.print("\n"+elementName + " " + (i+1) + ": ");
-            String input = scan.nextLine();
-            if(input.equalsIgnoreCase("q")){
+        String input="";
+        while(i < iterations ){
+            displayMessage(msg);
+            input = scan.nextLine();
+            if(input.equalsIgnoreCase("Q")){
                 break;
             }
             values.add(input);
             i++;
-
         }
         return values;
     }
 
-    public String getUserInput(String msg){
-        System.out.println(msg);
-        return scan.nextLine();
-    }
+    public int getUserInput(String msg, ArrayList<String> options){
 
+        displayMessage(msg);
 
-    public int getUserChoice(ArrayList<String> arr){
-        String msg =  "Choose a number between the following choices.";
-        System.out.println(msg);
+        for(int i = 0; i<options.size(); i++){
 
-        for(int i = 0; i<arr.size(); i++) {
-
-            System.out.println("[" + (i + 1) + "] " + arr.get(i));
+            System.out.println(i+1+". "+options.get(i));
         }
-        return scan.nextInt();
+        int choice = scan.nextInt();
+        return choice;
+    }
+    public void displayMessage(String msg){
+        System.out.println(msg);
     }
 }
+

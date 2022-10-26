@@ -2,19 +2,17 @@ public class Player {
     private String name;
     private BankAccount account;
 
+
+    private int startPosition = 1;
+    private int currentPosition = startPosition;
+
+
     public Player(String name, int amount) {
         this.name = name;
         account = new BankAccount(amount);
     }
 
-    public int getAmount() {
-        return account.getBalance();
-    }
 
-    public void buy(int cost){
-        account.setBalance(-cost);
-
-    }
 
     public String getName() {
         return name;
@@ -24,13 +22,30 @@ public class Player {
         this.name = name;
     }
 
-    public String toString() {
-        return "Player: \n\tName: " + name + "\n\tBalance: " + account.getBalance();
+    public int getBalance() {
+        return account.getBalance();
     }
-    public String toString(Boolean file) {
-        if(file){
-            return name + "," + account.getBalance();
+
+
+    @Override
+    public String toString() {
+        return name +":"+ account;
+
+    }
+
+    public void buy(int cost){
+
+        this.account.doTransaction(-cost);
+    }
+    public int updatePos(int sum){
+        currentPosition = currentPosition + sum;
+        if(currentPosition > 40){
+            currentPosition -= 40;
         }
-        return toString();
+        return currentPosition;
+    }
+
+    public int getPosition() {
+        return currentPosition;
     }
 }
