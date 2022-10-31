@@ -1,7 +1,7 @@
 public class ComputerGuesser implements IGuesser
 {
-	private int min;
-	private int max;
+	protected int min;
+	protected int max;
 
 	public void yourTurn() {}
 
